@@ -6,11 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class SceneHandler : MonoBehaviour
 {
-
+    private void Start()
+    {
+        DontDestroyOnLoad(this);
+    }
     public void LoadFirstGame()
     {
 
-        SceneManager.LoadScene("FirstGameScene");
+        SceneManager.LoadScene("GameScene");
     }
 
 }
