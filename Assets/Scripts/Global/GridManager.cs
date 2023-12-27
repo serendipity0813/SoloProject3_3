@@ -1,8 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-
-
 public class GridManager : MonoBehaviour
 {
     public static GridManager Instance { get; private set; }
@@ -49,6 +47,11 @@ public class GridManager : MonoBehaviour
     private void HideDuck(int gridNum, int duckNum)
     {
         Ducks[gridNum].transform.GetChild(duckNum).gameObject.SetActive(false);
+    }
+
+    private void ChangeDuck(int input, int output)
+    {
+        
     }
 
 }
