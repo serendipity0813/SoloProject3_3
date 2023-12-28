@@ -64,6 +64,7 @@ public class PlayerClick : MonoBehaviour
 
         //gird를 사용하여 좌측 상단부터 배열의 0번이 시작되므로 클릭한 행, 열 좌표가 배열의 몇 번째인지 알아내도록 계산 
         clickPos = 49 - ((int)row*7 - (int)col) ;
+        Debug.Log(clickPos);
         gridDuckNum = GridManager.Instance.gridArray[clickPos];
 
     }

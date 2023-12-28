@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     {
         checkFlag = false;
 
-        if (clickPos + 1 < 56)
+        if (clickPos + 1 < 56 && (clickPos+1) % 7 != 0)
         {
             if (GridManager.Instance.gridArray[clickPos + 1] == DuckNum)
             {
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (clickPos - 1 > 0)
+        if (clickPos - 1 > 0 && (clickPos-1) % 7 != 6)
         {
             if (GridManager.Instance.gridArray[clickPos - 1] == DuckNum)
             {
