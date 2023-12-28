@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     private bool[] checkArray;
+    private bool checkFlag = false;
 
     void Awake()
     {
@@ -28,7 +29,7 @@ public class GameManager : MonoBehaviour
 
     public void FourWayCheck(int clickPos, int DuckNum)
     {
-        checkArray[clickPos] = true;
+        checkFlag = false;
 
         if (clickPos + 1 < 56)
         {
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
                 if (checkArray[clickPos + 1] == false)
                 {
                     checkArray[clickPos + 1] = true;
+                    checkFlag = true;
                     FourWayCheck(clickPos + 1, DuckNum);
                 }
 
@@ -50,6 +52,7 @@ public class GameManager : MonoBehaviour
                 if (checkArray[clickPos - 1] == false)
                 {
                     checkArray[clickPos - 1] = true;
+                    checkFlag = true;
                     FourWayCheck(clickPos - 1, DuckNum);
                 }
           
@@ -63,6 +66,7 @@ public class GameManager : MonoBehaviour
                 if (checkArray[clickPos + 7] == false)
                 {
                     checkArray[clickPos + 7] = true;
+                    checkFlag = true;
                     FourWayCheck(clickPos + 7, DuckNum);
                 }
             }
@@ -75,11 +79,14 @@ public class GameManager : MonoBehaviour
                 if (checkArray[clickPos - 7] == false)
                 {
                     checkArray[clickPos - 7] = true;
+                    checkFlag = true;
                     FourWayCheck(clickPos - 7, DuckNum);
                 }
             }
         }
 
+        if (checkFlag == true) 
+        checkArray[clickPos] = true;
 
     }
 
