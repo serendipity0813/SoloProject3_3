@@ -40,13 +40,13 @@ public class GridManager : MonoBehaviour
 
     //번호를 매개변수로 받았을 때 해당 번호에 해당하는 오리를 켜주거나 꺼주는 함수
 
-    private void ShowDuck(int gridNum, int duckNum)
+    public void ShowDuck(int gridNum, int duckNum)
     {
         Ducks[gridNum].transform.GetChild(duckNum).gameObject.SetActive(true);   
     }
 
 
-    private void HideDuck(int gridNum, int duckNum)
+    public void HideDuck(int gridNum, int duckNum)
     {
         Ducks[gridNum].transform.GetChild(duckNum).gameObject.SetActive(false);
     }

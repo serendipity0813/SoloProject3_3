@@ -5,6 +5,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    private PlayerClick playerClick;
+    private int arrayLength = GridManager.Instance.gridArray.Length;
+
+    private bool[] checkArray;
+    private int clickPos;
+
     void Awake()
     {
         if (Instance == null)
@@ -17,5 +23,54 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // 게임 시작, 멈춤, 스테이지 체크, 클리어 체크 등등의 요소 관리내용 구현하기
+    private void Start()
+    {
+        checkArray = new bool[arrayLength];
+        ResetArray();
+    }
+
+    public void FourWayCheck(int clickPos, int DuckNum)
+    {
+        for(int  i = 0; i < arrayLength; i++)
+        {
+            if(i == clickPos)
+            checkArray[i] = true;
+        }
+
+        if(GridManager.Instance.gridArray[clickPos + 1] == DuckNum)
+        {
+            checkArray[clickPos + 1] = true;
+            FourWayCheck(clickPos+1, DuckNum);
+        }
+
+        if (GridManager.Instance.gridArray[clickPos - 1] == DuckNum)
+        {
+            checkArray[clickPos - 1] = true;
+            FourWayCheck(clickPos - 1, DuckNum);
+        }
+
+        if (GridManager.Instance.gridArray[clickPos + 7] == DuckNum)
+        {
+            checkArray[clickPos + 7] = true;
+            FourWayCheck(clickPos + 7, DuckNum);
+        }
+
+        if (GridManager.Instance.gridArray[clickPos - 7] == DuckNum)
+        {
+            checkArray[clickPos - 7] = true;
+            FourWayCheck(clickPos - 7, DuckNum);
+        }
+
+
+
+    }
+
+    private void ResetArray()
+    {
+        for (int i = 0; i < arrayLength; i++)
+        {
+            checkArray[i] = false;
+        }
+    }
+
 }
