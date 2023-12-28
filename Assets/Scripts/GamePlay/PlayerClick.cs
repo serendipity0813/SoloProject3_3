@@ -32,6 +32,7 @@ public class PlayerClick : MonoBehaviour
             CheckMyDuck();
             ChangeDuck();
             GameManager.Instance.FourWayCheck(clickPos, GridManager.Instance.gridArray[clickPos]);
+            GameManager.Instance.DuckDuck(GridManager.Instance.gridArray[clickPos]);
         }
 
     }
@@ -60,8 +61,6 @@ public class PlayerClick : MonoBehaviour
         mousePos.y = mousePos.y * 100 + 340;
         col = mousePos.x / 70;
         row = mousePos.y / 70;
-        Debug.Log((int)row);
-        Debug.Log((int)col);
 
         //gird를 사용하여 좌측 상단부터 배열의 0번이 시작되므로 클릭한 행, 열 좌표가 배열의 몇 번째인지 알아내도록 계산 
         clickPos = 49 - ((int)row*7 - (int)col) ;
