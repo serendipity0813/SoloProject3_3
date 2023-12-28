@@ -84,6 +84,7 @@ public class PlayerClick : MonoBehaviour
 
     private void ChangeDuck()  //현재 내가 가지고 있는 오리와 클릭한 위치의 오리를 변경하도록 하는 메소드
     {
+        EffectManager.Instance.ChangeSound();
 
         //나의 켜져있는 오리와 해당 위치 켜져있는 오리를 끄고 번호를 바꿔준 후 다시 켜주기 
         int temp = 0;

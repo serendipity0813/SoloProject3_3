@@ -96,6 +96,7 @@ public class GameManager : MonoBehaviour
         {
             if (checkArray[i] == true)
             {
+                EffectManager.Instance.MatchSound();
                 GridManager.Instance.HideDuck(i, DuckNum);
                 int newduck = Random.Range(0, 5);
                 GridManager.Instance.gridArray[i] = newduck;
