@@ -10,6 +10,7 @@ public class UIHandler : MonoBehaviour
     public GameObject[] targets;
     public GameObject[] stars;
     public Slider timeSlider;
+    public GameObject GameOver;
 
     private int MaxCount;
     private int remainCount;
@@ -34,6 +35,9 @@ public class UIHandler : MonoBehaviour
 
     private void UISetting()
     {
+        Time.timeScale = 1f;
+
+
         MaxCount = 30; // 난이도, 스테이지 조절에 따라 유동적으로 바뀌도록 하기
         remainCount = MaxCount;
 
@@ -68,9 +72,11 @@ public class UIHandler : MonoBehaviour
             remainTime -= Time.deltaTime;
             timeSlider.value = remainTime;
         }
-        else if (remainTime == 0)
+
+        if (remainTime < 0)
         {
             Time.timeScale = 0f;
+            GameOver.SetActive(true);
         }
   
 
