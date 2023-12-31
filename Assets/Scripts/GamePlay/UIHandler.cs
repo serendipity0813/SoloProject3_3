@@ -5,19 +5,20 @@ using UnityEngine.UI;
 public class UIHandler : MonoBehaviour
 {
     public TextMeshProUGUI remainText;
-    public TextMeshProUGUI StageText;
+    public TextMeshProUGUI stageText;
     public TextMeshProUGUI missionText;
+    public TextMeshProUGUI boomNum;
+    public TextMeshProUGUI hammerNum;
+    public TextMeshProUGUI clockNum;
     public GameObject[] targets;
     public GameObject[] stars;
     public Slider timeSlider;
-    public GameObject GameOver;
+    public Image fill;
 
+    private int stage;
     private int MaxCount;
     private int remainCount;
-    private int stageNum;
-    private int targetNum;
     private int missionNum;
-    private int maxTime;
     private float remainTime;
 
 
@@ -26,6 +27,7 @@ public class UIHandler : MonoBehaviour
     private void Start()
     {
         UISetting();
+        
     }
 
     private void Update()
@@ -35,29 +37,21 @@ public class UIHandler : MonoBehaviour
 
     private void UISetting()
     {
-        Time.timeScale = 1f;
 
-
-        MaxCount = 30; // 난이도, 스테이지 조절에 따라 유동적으로 바뀌도록 하기
-        remainCount = MaxCount;
-
-        stageNum = 1; // 게임정보 관리에서 받아오도록 설정 필요
-        StageText.text = stageNum.ToString();
-
-        targetNum = Random.Range(0, 5);
-        targets[targetNum].SetActive(true);
-
-        missionNum = Random.Range(10, 31);  //추후에 stage 번호와 연관되어 적용되도록 하기
+        MaxCount = Player.player.maxCount;
+        stage = Player.player.stage;
+        stageText.text = stage.ToString();
+        boomNum.text = Player.player.boomNum.ToString();
+        hammerNum.text = Player.player.hammerNum.ToString();
+        clockNum.text = Player.player.clockNum.ToString();
+        targets[GameManager.Instance.targetNum].SetActive(true);
+        missionNum = GameManager.Instance.missionNum;
 
 
         for(int  i = 0; i < stars.Length; i++)
         {
             stars[i].SetActive(true);
         }
-
-        maxTime = 30;
-        remainTime = maxTime;
-        timeSlider.value = remainTime;
 
     }
 
@@ -66,38 +60,58 @@ public class UIHandler : MonoBehaviour
     {
         remainText.text = remainCount.ToString();
         missionText.text = " X " + missionNum.ToString();
+        missionNum = GameManager.Instance.missionNum;
+        remainCount = Player.player.remainCount;
+        remainTime = Player.player.remainTime;
+        timeSlider.value = remainTime;
+
+        TimeUpdate();
+        StarUpdate();
+
+
+    }
+
+    private void TimeUpdate()
+    {
 
         if (remainTime > 0)
         {
-            remainTime -= Time.deltaTime;
             timeSlider.value = remainTime;
+        }
+
+        if(remainTime < 20)
+        {
+            fill.color = Color.yellow;
+        }
+
+        if (remainTime < 10)
+        {
+            fill.color = Color.red;
         }
 
         if (remainTime < 0)
         {
-            Time.timeScale = 0f;
-            GameOver.SetActive(true);
+            GameManager.Instance.GameOver();
         }
-  
+    }
 
+    private void StarUpdate()
+    {
 
-        if (remainCount < 6 * (MaxCount / 10))
+        if (remainCount < 8 * (MaxCount / 10))
         {
             stars[0].SetActive(false);
         }
-     
-        if (remainCount < 4 * (MaxCount / 10))
+
+        if (remainCount < 5 * (MaxCount / 10))
         {
             stars[1].SetActive(false);
-        }  
-          
+        }
+
         if (remainCount < 2 * (MaxCount / 10))
         {
             stars[2].SetActive(false);
         }
-
-
-
     }
 
 

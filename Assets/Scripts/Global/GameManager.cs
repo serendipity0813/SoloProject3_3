@@ -1,12 +1,15 @@
-using Unity.VisualScripting;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    public static GameManager Instance;
+    public GameObject gameOver;
+    public GameObject gameClear;
+    public int missionNum;
+    public int targetNum;
 
-    private bool[] checkArray;
-    private bool checkFlag = false;
 
     void Awake()
     {
@@ -16,105 +19,46 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject); 
+            Destroy(gameObject);
         }
     }
 
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
-        checkArray = new bool[56];
-        ResetArray();
+        Time.timeScale = 1f;
+        missionNum = Player.player.stage * Random.Range(5, 11);
+        targetNum = Random.Range(0, 5);
     }
 
-
-    public void FourWayCheck(int clickPos, int DuckNum)
+    private void Update()
     {
-        checkFlag = false;
-
-        if (clickPos + 1 < 56 && (clickPos+1) % 7 != 0)
-        {
-            if (GridManager.Instance.gridArray[clickPos + 1] == DuckNum)
-            {
-                if (checkArray[clickPos + 1] == false)
-                {
-                    checkArray[clickPos + 1] = true;
-                    checkFlag = true;
-                    FourWayCheck(clickPos + 1, DuckNum);
-                }
-
-            }
-        }
-
-        if (clickPos - 1 > 0 && (clickPos-1) % 7 != 6)
-        {
-            if (GridManager.Instance.gridArray[clickPos - 1] == DuckNum)
-            {
-                if (checkArray[clickPos - 1] == false)
-                {
-                    checkArray[clickPos - 1] = true;
-                    checkFlag = true;
-                    FourWayCheck(clickPos - 1, DuckNum);
-                }
-          
-            }
-        }
-
-        if (clickPos + 7 < 56)
-        {
-            if (GridManager.Instance.gridArray[clickPos + 7] == DuckNum)
-            {
-                if (checkArray[clickPos + 7] == false)
-                {
-                    checkArray[clickPos + 7] = true;
-                    checkFlag = true;
-                    FourWayCheck(clickPos + 7, DuckNum);
-                }
-            }
-        }
-
-        if (clickPos - 7 > 0)
-        {
-            if (GridManager.Instance.gridArray[clickPos - 7] == DuckNum)
-            {
-                if (checkArray[clickPos - 7] == false)
-                {
-                    checkArray[clickPos - 7] = true;
-                    checkFlag = true;
-                    FourWayCheck(clickPos - 7, DuckNum);
-                }
-            }
-        }
-
-        if (checkFlag == true) 
-        checkArray[clickPos] = true;
-
+        ClearCheck();
     }
 
-    public void DuckDuck(int DuckNum)
+    public void GameOver()
     {
-        for (int i = 0; i<checkArray.Length; i++)
-        {
-            if (checkArray[i] == true)
-            {
-                EffectManager.Instance.MatchSound();
-                EffectManager.Instance.MatchEffect(i);
-                GridManager.Instance.HideDuck(i, DuckNum);
-                int newduck = Random.Range(0, 5);
-                GridManager.Instance.gridArray[i] = newduck;
-                GridManager.Instance.ShowDuck(i, newduck);
-            }
-        }
-
-
-        ResetArray();
+        Time.timeScale = 0f;
+        gameOver.SetActive(true);
     }
 
-    private void ResetArray()
+    public void MissionCount(int DuckNum)
     {
-        for (int i = 0; i < checkArray.Length; i++)
-        {
-            checkArray[i] = false;
-        }
+        if (DuckNum == targetNum)
+            missionNum--;
     }
+
+
+    public void ClearCheck()
+    {
+        if(missionNum < 1)
+        {
+            Player.player.LevelUp();
+            gameClear.SetActive(true);
+        }
+
+
+    }
+
 
 }

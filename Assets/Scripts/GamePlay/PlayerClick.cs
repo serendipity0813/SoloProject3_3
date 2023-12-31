@@ -31,8 +31,9 @@ public class PlayerClick : MonoBehaviour
             FindClickObject();
             CheckMyDuck();
             ChangeDuck();
-            GameManager.Instance.FourWayCheck(clickPos, GridManager.Instance.gridArray[clickPos]);
-            GameManager.Instance.DuckDuck(GridManager.Instance.gridArray[clickPos]);
+            Player.player.ClickCount();
+            LogicManager.Instance.FourWayCheck(clickPos, GridManager.Instance.gridArray[clickPos]);
+            LogicManager.Instance.DuckDuck(GridManager.Instance.gridArray[clickPos]);
         }
 
     }
